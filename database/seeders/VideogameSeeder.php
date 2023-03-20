@@ -22,7 +22,7 @@ class VideogameSeeder extends Seeder
             $videogame->description = $faker->paragraph();
             $videogame->img_url = $faker->imageUrl(300, 300);
             $videogame->platform = $faker->randomElement($platforms);
-            $videogame->pegi = $faker->randomNumber(2, false);
+            $videogame->pegi = $faker->numberBetween(6, 18);
             $videogame->producer = $faker->company();
             $videogame->vote = $faker->numberBetween(0, 5);
             $videogame->save();
