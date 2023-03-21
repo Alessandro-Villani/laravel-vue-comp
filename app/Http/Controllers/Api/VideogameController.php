@@ -31,7 +31,10 @@ class VideogameController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $videogame = Videogame::find($id);
+        if (!$videogame) return response(null, 404);
+
+        return response()->json($videogame);
     }
 
     /**
