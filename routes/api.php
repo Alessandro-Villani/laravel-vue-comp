@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\VideogameController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('videogames', VideogameController::class);
+
+// Route to receive message
+Route::post('/contact-message', [ContactController::class, 'send']);
