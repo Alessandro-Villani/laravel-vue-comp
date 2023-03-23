@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
-    public function send( Request $request )
+    public function send(Request $request)
     {
         $data = $request->all();
         $validator = Validator::make(
@@ -20,31 +20,31 @@ class ContactController extends Controller
                 'email' => 'required|email',
                 'subject' => 'required|string',
                 'message' => 'required|string',
-                'subscription'=>'nullable|boolean',
+                'subscription' => 'nullable|boolean',
             ],
             [
-                'email.required'=>"L'email è obbligatoria",
-                'email.email'=>"l'email non è valida",
+                'email.required' => "L'email è obbligatoria",
+                'email.email' => "l'email non è valida",
                 'subject.required' => 'Il messaggio deve avere un oggetto',
                 'message.required' => 'Il messaggio deve avere un contenuto',
                 'subscription.boolean' => 'Il valore del checkbox non è valido',
             ]
         );
 
-        if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
         }
 
         // checking if user wants to be subscribed to newsletter
-        if(Arr::exists($data, 'subscription')){
+        if (Arr::exists($data, 'subscription')) {
             $exists = Contact::where('email', $data['email'])->count();
-            if(!$exists){
+            if (!$exists) {
                 $contact = new Contact();
                 $contact->email = $data['email'];
                 $contact->save();
             }
         }
-        
+
         // Sending of Email
         $mail = new ContactMessageMail(
             sender: $data['email'],
